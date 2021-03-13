@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, Button } from "react-native";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       nome: "",
+      input: "",
     };
-    this.texto = this.texto.bind(this);
+    this.enviar = this.enviar.bind(this);
   }
-
-  texto(nome) {
-    if (nome.length > 0) {
-      this.setState({ nome: "Bem vindo " + nome });
-    } else {
-      this.setState({ nome: "" });
+  enviar() {
+    if (this.state.input === "") {
+      alert("Digite seu nome");
+      return;
     }
+    this.setState({ nome: "Bem vindo: " + this.state.input });
   }
 
   render() {
@@ -23,10 +23,14 @@ export default class App extends Component {
       <View style={estilos.principal}>
         <TextInput
           style={estilos.input}
-          placeholder="Digite seu nome"
           underlineColorAndroid="transparent"
-          onChangeText={this.texto}
+          placeholder="Digite seu nome"
+          value={this.state.input}
+          onChangeText={(nome) => {
+            this.setState({ input:nome });
+          }}
         />
+        <Button type="button" onPress={this.enviar} title="Enviar" />
         <Text style={estilos.texto}>{this.state.nome}</Text>
       </View>
     );
@@ -43,10 +47,9 @@ const estilos = StyleSheet.create({
     padding: 30,
     margin: 30,
     borderWidth: 1,
-    borderColor: '#222',
+    borderColor: "#222",
     fontSize: 50,
-    color:'#000000',
-    
+    color: "gray",
   },
   texto: {
     textAlign: "center",
